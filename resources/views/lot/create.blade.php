@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('content_header')
     <div class="d-inline-block">
-        <h1>Employees</h1>
+        <h1>Lots</h1>
     </div>
 @stop
 
@@ -10,7 +10,7 @@
         <div class="col-5">
             <div class="card card-secondary">
                 <div class="card-header">
-                    <h3 class="card-title">Add employee</h3>
+                    <h3 class="card-title">Add Lot</h3>
                 </div>
                 <form action="{{route('lots.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -19,28 +19,36 @@
                             @error('name')<i class="text-gray far fa-times-circle"></i>@enderror
                             <label for="inputName">Name</label>
                             <input type="text" class="form-control" id="inputName" name="name"
-                                   placeholder="Enter name"
-                                   onkeyup="countChars('inputName','restriction');">
+                                   placeholder="Enter name">
                             @error('name')
                             <div class="text-danger text-left">
                                 {{$message}}
                             </div>
                             @enderror
-                            <p style="display:block; text-align:right" class="text-secondary" id="restriction">0/256</p>
                         </div>
 
                         <div class="form-group">
-                            @error('position_id')<i class="text-gray far fa-times-circle"></i>@enderror
-                            <label for="inputPosition">Position</label>
-                            <select name="position_id" class="form-control">
-                                @foreach($positions as $position)
-                                    <option
-                                        value="{{$position->id}}"
-                                        {{$position->id == old('position_id'? 'selected' :'')}}
-                                    >{{$position->name}}</option>
+                            @error('description')<i class="text-gray far fa-times-circle"></i>@enderror
+                            <label for="inputName">Description</label>
+                            <input type="text" class="form-control" id="inputName" name="description"
+                                   placeholder="Enter description">
+                            @error('description')
+                            <div class="text-danger text-left">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            @error('categories')<i class="text-gray far fa-times-circle"></i>@enderror
+                            <label for="inputPosition">Categories</label>
+
+                            <select name="categories[]" multiple="multiple" class="form-control select2 col-10">
+                                @foreach($categories as $category)
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
-                            @error('position')
+                            @error('categories')
                             <div class="text-danger text-left">
                                 {{$message}}
                             </div>
@@ -58,4 +66,10 @@
             </div>
         </div>
     </div>
+@stop
+
+@section('js')
+    <script>
+        $('.select2').select2()
+    </script>
 @stop
